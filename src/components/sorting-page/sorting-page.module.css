@@ -1,0 +1,28 @@
+.form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 924px;
+    margin: 0 auto;
+}
+
+.radio {
+    display: flex;
+    gap: 40px;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.list {
+    list-style-type: none;
+    margin: 48px 0 0;
+    height: 340px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+}

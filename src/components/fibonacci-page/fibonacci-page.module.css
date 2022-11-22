@@ -1,0 +1,18 @@
+.form {
+    display: flex;
+    max-width: 567px;
+    gap: 12px;
+    margin: 0 auto;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    max-width: 950px;
+    grid-template-columns: repeat(10, minmax(0px, min-content));
+    justify-content: center;
+    row-gap: 48px;
+    column-gap: 16px;
+    margin: 48px auto 0;
+}

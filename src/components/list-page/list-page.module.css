@@ -1,0 +1,29 @@
+.form {
+    max-width: 952px;
+    margin: 0 auto;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    max-width: 950px;
+    justify-content: center;
+    gap: 12px;
+    margin: 90px auto 0;
+}
+.box {
+    border: none;
+    display: flex;
+    gap: 12px;
+}
+
+.input {
+    max-width: 204px;
+}
+
+.node {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
