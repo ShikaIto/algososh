@@ -47,6 +47,7 @@ export const StringComponent: React.FC = () => {
     }
 
     setLoader(false);
+    setValue('');
   }
 
   const handleSubmit = (e: FormEvent) => {
@@ -62,8 +63,8 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <form className={styles.form} onSubmit={handleSubmit}>
-        <Input isLimitText={true} maxLength={11} onChange={onChange} disabled={loader} />
-        <Button type="submit" text={'Развернуть'} isLoader={loader} />
+        <Input isLimitText={true} maxLength={11} onChange={onChange} disabled={loader} value={value} />
+        <Button type="submit" text={'Развернуть'} isLoader={loader} disabled={value ? false : true} />
       </form>
       {letters && <ul className={styles.list}>
         {letters.map((item, index) => {

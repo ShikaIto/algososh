@@ -201,14 +201,14 @@ export const ListPage: React.FC = () => {
           <Button
             text={'Добавить по индексу'}
             linkedList='big'
-            disabled={disabled ? true : value.index && value.text ? false : true}
+            disabled={disabled ? true : value.index && data.array.length > Number(value.index) && value.text ? false : true}
             onClick={() => addByIndex(Number(value.index), value.text)}
             isLoader={addLoader.index}
           />
           <Button
             text={'Удалить по инедксу'}
             linkedList='big'
-            disabled={disabled ? true : value.index && data.array.length > 0 ? false : true}
+            disabled={disabled ? true : value.index && data.array.length > Number(value.index) ? false : true}
             onClick={() => deleteByIndex(Number(value.index))}
             isLoader={deleteLoader.index}
           />

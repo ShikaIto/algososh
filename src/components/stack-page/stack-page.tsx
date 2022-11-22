@@ -13,7 +13,7 @@ export const StackPage: React.FC = () => {
   const [disabledAdd, setDisabledAdd] = React.useState(true);
   const [disabledDelete, setDisabledDelete] = React.useState(true);
   const [value, setValue] = React.useState('');
-  const [, update] = React.useState({});
+  const [loader, setLoader] = React.useState({ add: false, delete: false });
 
   const stack = React.useRef(new Stack());
 
@@ -40,23 +40,23 @@ export const StackPage: React.FC = () => {
   const addElement = async (item: string) => {
     setDisabledAdd(true);
     stack.current.push({ value: item, state: ElementStates.Changing });
-    update({});
+    setLoader({ ...loader, add: true });
 
     await delay(SHORT_DELAY_IN_MS);
 
     setValue('');
     stack.current.changeState(array.length - 1, ElementStates.Default);
-    update({});
+    setLoader({ ...loader, add: false });
   }
 
   const deleteElement = async () => {
     stack.current.changeState(array.length - 1, ElementStates.Changing);
-    update({});
+    setLoader({ ...loader, delete: true });
 
     await delay(SHORT_DELAY_IN_MS);
 
     stack.current.pop();
-    update({});
+    setLoader({ ...loader, delete: false });
 
     if (array.length < 1) {
       setDisabledDelete(true);
@@ -72,9 +72,9 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title="Стек">
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input placeholder="Введите значение" isLimitText={true} maxLength={4} onChange={onChange} value={value} />
-        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} />
-        <Button text={'Удалить'} disabled={disabledDelete} onClick={() => deleteElement()} />
-        <Button text={'Очистить'} disabled={disabledDelete} extraClass={styles.margin} onClick={reset} />
+        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} isLoader={loader.add} />
+        <Button text={'Удалить'} disabled={loader.add || disabledDelete} onClick={() => deleteElement()} isLoader={loader.delete} />
+        <Button text={'Очистить'} disabled={loader.add || loader.delete || disabledDelete} extraClass={styles.margin} onClick={reset} />
       </form>
       {array && <ul className={styles.list}>
         {array.map((item, index) => {

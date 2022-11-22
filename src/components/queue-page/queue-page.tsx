@@ -14,7 +14,7 @@ export const QueuePage: React.FC = () => {
   const [disabledAdd, setDisabledAdd] = React.useState(true);
   const [disabledDelete, setDisabledDelete] = React.useState(true);
   const [value, setValue] = React.useState('');
-  const [, update] = React.useState({});
+  const [loader, setLoader] = React.useState({ add: false, delete: false });
 
   const queue = React.useRef(new Queue(7));
 
@@ -25,10 +25,10 @@ export const QueuePage: React.FC = () => {
       setDisabledAdd(false);
     }
 
-    if (data.array[data.tail !== null && data.tail < 6 ? data.tail + 1 : 0].value === '') {
+    if (data.tail !== null) {
       setDisabledDelete(false);
     }
-  }, [value, data]);
+  }, [value, data.tail]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -40,23 +40,24 @@ export const QueuePage: React.FC = () => {
 
   const addElement = async (item: string) => {
     queue.current.enqueue({ value: item, state: ElementStates.Changing });
-    update({});
+    setLoader({ ...loader, add: true });
 
     await delay(SHORT_DELAY_IN_MS);
     queue.current.changeState(data.tail !== null && data.tail < 6 ? data.tail + 1 : 0, ElementStates.Default);
     setValue('');
     setDisabledAdd(true);
+    setLoader({ ...loader, add: false });
   }
 
 
   const deleteElement = async () => {
     queue.current.changeState(data.head !== null ? data.head : 0, ElementStates.Changing);
-    update({});
+    setLoader({ ...loader, delete: true });
 
     await delay(SHORT_DELAY_IN_MS);
 
     queue.current.dequeue();
-    update({});
+    setLoader({ ...loader, delete: false });
 
     if (data.head === null) {
       setDisabledDelete(true);
@@ -72,9 +73,9 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input placeholder="Введите значение" isLimitText={true} maxLength={4} onChange={onChange} value={value} />
-        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} />
-        <Button text={'Удалить'} disabled={disabledDelete} onClick={() => deleteElement()} />
-        <Button text={'Очистить'} disabled={disabledDelete} extraClass={styles.margin} onClick={reset} />
+        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} isLoader={loader.add} />
+        <Button text={'Удалить'} disabled={loader.add || disabledDelete} onClick={() => deleteElement()} isLoader={loader.delete} />
+        <Button text={'Очистить'} disabled={loader.add || loader.delete || disabledDelete} extraClass={styles.margin} onClick={reset} />
       </form>
       {data.array && <ul className={styles.list}>
         {data.array.map((item, index) => {

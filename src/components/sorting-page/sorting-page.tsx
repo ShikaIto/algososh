@@ -21,6 +21,22 @@ export const SortingPage: React.FC = () => {
   const [array, setArray] = React.useState<TColumn[]>([]);
   const [copyArray, setCopyArray] = React.useState<TColumn[]>([]);
 
+  const randomArr = () => {
+    let arr = [];
+    let n = random(3, 17);
+
+    for (let i = 0; i <= n; i++) {
+      arr.push({ value: random(0, 100), state: ElementStates.Default })
+    }
+
+    setArray([...arr]);
+    setCopyArray([...arr]);
+  }
+
+  React.useEffect(() => {
+    randomArr();
+  }, []);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
   }
@@ -35,18 +51,6 @@ export const SortingPage: React.FC = () => {
     if (e.target.checked) {
       setChecked({ selection: false, bubble: true });
     }
-  }
-
-  const randomArr = () => {
-    let arr = [];
-    let n = random(3, 17);
-
-    for (let i = 0; i <= n; i++) {
-      arr.push({ value: random(0, 100), state: ElementStates.Default })
-    }
-
-    setArray([...arr]);
-    setCopyArray([...arr]);
   }
 
   const compare = (a: Number, b: number, type: SortingTypes) => {
@@ -109,21 +113,19 @@ export const SortingPage: React.FC = () => {
 
   const handleClickAscending = () => {
     setLoader({ ascending: true, descending: false });
-    setArray([...copyArray]);
     if (checked.selection) {
-      selectionSort(array, SortingTypes.Ascending)
+      selectionSort(copyArray, SortingTypes.Ascending)
     } else {
-      bubbleSort(array, SortingTypes.Ascending);
+      bubbleSort(copyArray, SortingTypes.Ascending);
     }
   }
 
   const handleClickDescending = () => {
     setLoader({ ascending: false, descending: true });
-    setArray([...copyArray]);
     if (checked.selection) {
-      selectionSort(array, SortingTypes.Descending)
+      selectionSort(copyArray, SortingTypes.Descending)
     } else {
-      bubbleSort(array, SortingTypes.Descending);
+      bubbleSort(copyArray, SortingTypes.Descending);
     }
   }
 
