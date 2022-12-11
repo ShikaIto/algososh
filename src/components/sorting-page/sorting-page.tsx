@@ -3,17 +3,13 @@ import { DELAY_IN_MS } from "../../constants/delays";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import { SortingTypes } from "../../types/sorting-types";
-import { delay, random, swap } from "../../utils/utils";
+import { delay, generateSelectionSort, random, generateBubbleSort } from "../../utils/utils";
 import { Button } from "../ui/button/button";
 import { Column } from "../ui/column/column";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import styles from './sorting-page.module.css';
-
-type TColumn = {
-  value: number,
-  state: ElementStates
-}
+import { TColumn } from "../../types/types";
 
 export const SortingPage: React.FC = () => {
   const [loader, setLoader] = React.useState({ ascending: false, descending: false });
@@ -53,61 +49,29 @@ export const SortingPage: React.FC = () => {
     }
   }
 
-  const compare = (a: Number, b: number, type: SortingTypes) => {
-    if (type === SortingTypes.Descending) {
-      return a < b
-    } else {
-      return a > b
-    }
-  }
-
   const bubbleSort = async (arr: TColumn[], type: SortingTypes) => {
+    const generator = generateBubbleSort(arr, type);
+
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length - 1 - i; j++) {
-        arr[j].state = ElementStates.Changing;
-        arr[j + 1].state = ElementStates.Changing;
-        setArray([...arr]);
-
-        if (compare(arr[j].value, arr[j + 1].value, type)) {
-          swap(arr, j, j + 1);
-        }
-
+        setArray(generator.next().value);
         await delay(DELAY_IN_MS);
-
-        arr[j].state = ElementStates.Default;
-        arr[j + 1].state = ElementStates.Default;
-        setArray([...arr]);
       }
-      arr[arr.length - 1 - i].state = ElementStates.Modified;
     }
+    setArray(generator.next().value);
     setLoader({ ascending: false, descending: false });
   }
 
   const selectionSort = async (arr: TColumn[], type: SortingTypes) => {
-    let min = 0;
+    const generator = generateSelectionSort(arr, type);
     for (let i = 0; i < arr.length - 1; i++) {
-      arr[i].state = ElementStates.Changing;
-      min = i;
       for (let j = i; j < arr.length; j++) {
-        arr[j].state = ElementStates.Changing;
-        setArray([...arr]);
-
-        if (compare(arr[min].value, arr[j].value, type)) {
-          min = j;
-        }
-
+        setArray(generator.next().value);
         await delay(DELAY_IN_MS);
-        if (i !== j) {
-          arr[j].state = ElementStates.Default;
-        }
+        setArray(generator.next().value);
       }
-      if (min !== i) {
-        swap(arr, min, i);
-      }
-      arr[i].state = ElementStates.Modified;
     }
-    arr[arr.length - 1].state = ElementStates.Modified;
-    setArray([...arr]);
+    setArray(generator.next().value);
     setLoader({ ascending: false, descending: false });
   }
 
