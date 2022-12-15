@@ -73,9 +73,27 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input placeholder="Введите значение" isLimitText={true} maxLength={4} onChange={onChange} value={value} />
-        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} isLoader={loader.add} />
-        <Button text={'Удалить'} disabled={loader.add || disabledDelete} onClick={() => deleteElement()} isLoader={loader.delete} />
-        <Button text={'Очистить'} disabled={loader.add || loader.delete || disabledDelete} extraClass={styles.margin} onClick={reset} />
+        <Button
+          text={'Добавить'}
+          disabled={disabledAdd}
+          onClick={() => addElement(value)}
+          isLoader={loader.add}
+          data-testid='queue_add'
+        />
+        <Button
+          text={'Удалить'}
+          disabled={loader.add || disabledDelete}
+          onClick={() => deleteElement()}
+          isLoader={loader.delete}
+          data-testid='queue_delete'
+        />
+        <Button
+          text={'Очистить'}
+          disabled={loader.add || loader.delete || disabledDelete}
+          extraClass={styles.margin}
+          onClick={reset}
+          data-testid='queue_reset'
+        />
       </form>
       {data.array && <ul className={styles.list}>
         {data.array.map((item, index) => {

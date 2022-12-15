@@ -72,9 +72,26 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title="Стек">
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input placeholder="Введите значение" isLimitText={true} maxLength={4} onChange={onChange} value={value} />
-        <Button text={'Добавить'} disabled={disabledAdd} onClick={() => addElement(value)} isLoader={loader.add} />
-        <Button text={'Удалить'} disabled={loader.add || disabledDelete} onClick={() => deleteElement()} isLoader={loader.delete} />
-        <Button text={'Очистить'} disabled={loader.add || loader.delete || disabledDelete} extraClass={styles.margin} onClick={reset} />
+        <Button
+          text={'Добавить'}
+          disabled={disabledAdd}
+          onClick={() => addElement(value)}
+          isLoader={loader.add}
+          data-testid='stack_add'
+        />
+        <Button
+          text={'Удалить'}
+          disabled={loader.add || disabledDelete} onClick={() => deleteElement()}
+          isLoader={loader.delete}
+          data-testid='stack_delete'
+        />
+        <Button
+          text={'Очистить'}
+          disabled={loader.add || loader.delete || disabledDelete}
+          extraClass={styles.margin}
+          onClick={reset}
+          data-testid='stack_reset'
+        />
       </form>
       {array && <ul className={styles.list}>
         {array.map((item, index) => {

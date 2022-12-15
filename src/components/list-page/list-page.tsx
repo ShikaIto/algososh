@@ -170,23 +170,37 @@ export const ListPage: React.FC = () => {
             maxLength={4}
             onChange={onChange}
             value={value.text}
-            extraClass={styles.input} />
-          <Button text={'Добавить в head'}
+            extraClass={styles.input}
+            data-testid='list_text'
+          />
+          <Button
+            text={'Добавить в head'}
             onClick={() => addHead(value.text)}
             disabled={disabled ? true : value.text ? false : true}
-            isLoader={addLoader.head} />
-          <Button text={'Добавить в tail'}
+            isLoader={addLoader.head}
+            data-testid='list_add_head'
+          />
+          <Button
+            text={'Добавить в tail'}
             onClick={() => addTail(value.text)}
             disabled={disabled ? true : value.text ? false : true}
-            isLoader={addLoader.tail} />
-          <Button text={'Удалить из head'}
+            isLoader={addLoader.tail}
+            data-testid='list_add_tail'
+          />
+          <Button
+            text={'Удалить из head'}
             onClick={deleteHead}
             disabled={disabled ? true : data.array.length > 0 ? false : true}
-            isLoader={deleteLoader.head} />
-          <Button text={'Удалить из tail'}
+            isLoader={deleteLoader.head}
+            data-testid='list_delete_head'
+          />
+          <Button
+            text={'Удалить из tail'}
             onClick={deleteTail}
             disabled={disabled ? true : data.array.length > 0 ? false : true}
-            isLoader={deleteLoader.tail} />
+            isLoader={deleteLoader.tail}
+            data-testid='list_delete_tail'
+          />
         </fieldset>
         <fieldset className={styles.box}>
           <Input
@@ -197,13 +211,16 @@ export const ListPage: React.FC = () => {
             max={data.array.length - 1}
             onChange={onChange}
             value={value.index}
-            extraClass={styles.input} />
+            extraClass={styles.input}
+            data-testid='list_index'
+          />
           <Button
             text={'Добавить по индексу'}
             linkedList='big'
             disabled={disabled ? true : value.index && data.array.length > Number(value.index) && value.text ? false : true}
             onClick={() => addByIndex(Number(value.index), value.text)}
             isLoader={addLoader.index}
+            data-testid='list_add_index'
           />
           <Button
             text={'Удалить по инедксу'}
@@ -211,6 +228,7 @@ export const ListPage: React.FC = () => {
             disabled={disabled ? true : value.index && data.array.length > Number(value.index) ? false : true}
             onClick={() => deleteByIndex(Number(value.index))}
             isLoader={deleteLoader.index}
+            data-testid='list_delete_index'
           />
         </fieldset>
       </form>

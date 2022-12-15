@@ -1,4 +1,5 @@
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
+import { DELAY_IN_MS } from '../../../constants/delays';
 import { StringComponent } from '../string';
 
 describe('string tests', () => {
@@ -15,7 +16,7 @@ describe('string tests', () => {
 
             await waitFor(() => {
                 expect(result).toBe(reversedStr);
-            }, { timeout: 1000 })
+            }, { timeout: DELAY_IN_MS })
         }
     }
 
