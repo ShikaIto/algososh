@@ -1,27 +1,23 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { baseUrl, elementStatesColors, circle, circleSmall } from '../constants/constants';
 
 describe('list tests', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/list');
+        cy.visit(`${baseUrl}/list`);
     })
 
-    const elementStatesColors = {
-        default: "rgb(0, 50, 255)",
-        changing: "rgb(210, 82, 225)",
-        modified: "rgb(127, 224, 81)",
-    }
-
-    const circle = "[data-testid='circle_state']";
-    const circleSmall = '[data-testid="circle_small"]';
+    const inputText = '[data-testid="list_text"]';
+    const inputIndex = '[data-testid="list_index"]';
+    const buttonAddIndex = '[data-testid="list_add_index"]';
 
     it('button disabled', () => {
-        cy.get('[data-testid="list_text"]').clear();
+        cy.get(inputText).clear();
         cy.get('[data-testid="list_add_head"]').should('be.disabled');
         cy.get('[data-testid="list_add_tail"]').should('be.disabled');
-        cy.get('[data-testid="list_add_index"]').should('be.disabled');
+        cy.get(buttonAddIndex).should('be.disabled');
 
-        cy.get('[data-testid="list_index"]').clear();
-        cy.get('[data-testid="list_add_index"]').should('be.disabled');
+        cy.get(inputIndex).clear();
+        cy.get(buttonAddIndex).should('be.disabled');
         cy.get('[data-testid="list_delete_index"]').should('be.disabled');
     })
 
@@ -37,7 +33,7 @@ describe('list tests', () => {
     })
 
     it('add in head', () => {
-        cy.get('[data-testid="list_text"]').type('23').should('have.value', '23');
+        cy.get(inputText).type('23').should('have.value', '23');
 
         cy.get(circle).should('have.length', 4);
 
@@ -60,7 +56,7 @@ describe('list tests', () => {
     })
 
     it('add in tail', () => {
-        cy.get('[data-testid="list_text"]').type('23').should('have.value', '23');
+        cy.get(inputText).type('23').should('have.value', '23');
 
         cy.get(circle).should('have.length', 4);
 
@@ -83,12 +79,12 @@ describe('list tests', () => {
     })
 
     it('add by index', () => {
-        cy.get('[data-testid="list_text"]').type('23').should('have.value', '23');
-        cy.get('[data-testid="list_index"]').type('2').should('have.value', '2');
+        cy.get(inputText).type('23').should('have.value', '23');
+        cy.get(inputIndex).type('2').should('have.value', '2');
 
         cy.get(circle).should('have.length', 4);
 
-        cy.get('[data-testid="list_add_index"]').click();
+        cy.get(buttonAddIndex).click();
 
         cy.clock();
 
@@ -156,7 +152,7 @@ describe('list tests', () => {
     })
 
     it('delete by index', () => {
-        cy.get('[data-testid="list_index"]').type('2').should('have.value', '2');
+        cy.get(inputIndex).type('2').should('have.value', '2');
 
         cy.get(circle).should('have.length', 4);
 

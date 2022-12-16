@@ -1,26 +1,22 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { baseUrl, elementStatesColors, circle } from '../constants/constants';
 
 describe('queue tests', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/queue');
+        cy.visit(`${baseUrl}/queue`);
     })
 
-    const elementStatesColors = {
-        default: "rgb(0, 50, 255)",
-        changing: "rgb(210, 82, 225)",
-        modified: "rgb(127, 224, 81)",
-    }
-
-    const circle = "[data-testid='circle_state']";
+    const buttonAdd = '[data-testid="queue_add"]';
+    const input = 'input';
 
     it('button disabled', () => {
-        cy.get('input').clear();
-        cy.get('[data-testid="queue_add"]').should('be.disabled');
+        cy.get(input).clear();
+        cy.get(buttonAdd).should('be.disabled');
     })
 
     it('add to queue', () => {
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.clock();
 
@@ -32,8 +28,8 @@ describe('queue tests', () => {
 
         cy.get(circle).eq(0).should('have.css', 'border-color', elementStatesColors.default).contains('1');
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.get(circle).eq(0).should('have.css', 'border-color', elementStatesColors.default).contains('1');
         cy.get(circle).eq(1).should('have.css', 'border-color', elementStatesColors.changing).contains('2');
@@ -47,13 +43,13 @@ describe('queue tests', () => {
 
     it('delete from queue', () => {
         cy.clock();
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
@@ -81,13 +77,13 @@ describe('queue tests', () => {
 
     it('reset queue', () => {
         cy.clock();
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="queue_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 

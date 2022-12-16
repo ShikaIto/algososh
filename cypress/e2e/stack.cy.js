@@ -1,26 +1,22 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { baseUrl, elementStatesColors, circle } from '../constants/constants';
 
 describe('stack tests', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/stack');
+        cy.visit(`${baseUrl}/stack`);
     })
 
-    const elementStatesColors = {
-        default: "rgb(0, 50, 255)",
-        changing: "rgb(210, 82, 225)",
-        modified: "rgb(127, 224, 81)",
-    }
-
-    const circle = "[data-testid='circle_state']";
+    const input = 'input';
+    const buttonAdd = '[data-testid="stack_add"]';
 
     it('button disabled', () => {
-        cy.get('input').clear();
-        cy.get('[data-testid="stack_add"]').should('be.disabled');
+        cy.get(input).clear();
+        cy.get(buttonAdd).should('be.disabled');
     })
 
     it('add to stack', () => {
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.clock();
 
@@ -34,8 +30,8 @@ describe('stack tests', () => {
 
         cy.get(circle).eq(0).should('have.css', 'border-color', elementStatesColors.default).contains('1');
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.get(circle)
         .should('have.length', 2)
@@ -53,13 +49,13 @@ describe('stack tests', () => {
     it('delete from stack', () => {
         cy.clock();
 
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
@@ -96,13 +92,13 @@ describe('stack tests', () => {
     it('reset stack', () => {
         cy.clock();
 
-        cy.get('input').type('1').should('have.value', '1');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('1').should('have.value', '1');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 
-        cy.get('input').type('2').should('have.value', '2');
-        cy.get('[data-testid="stack_add"]').click();
+        cy.get(input).type('2').should('have.value', '2');
+        cy.get(buttonAdd).click();
 
         cy.tick(SHORT_DELAY_IN_MS);
 

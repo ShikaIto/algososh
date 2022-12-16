@@ -1,6 +1,8 @@
+import { baseUrl } from "../constants/constants";
+
 describe('routing tests', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:3000');
+      cy.visit(baseUrl);
     })
   
     it('start page', () => {
