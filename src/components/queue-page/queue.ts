@@ -31,7 +31,7 @@ export class Queue implements IQueue<TCircle> {
         if (this.head !== null) {
             this.array[this.head] = { value: '', state: ElementStates.Default };
 
-            if ((this.head === 6 && this.array[0].value === '') || this.head < 6 && this.array[this.head + 1].value === '') {
+            if ((this.head === 6 && this.array[0].value === '') || (this.head < 6 && this.array[this.head + 1].value === '')) {
                 this.head = null;
                 this.tail = null;
             } else {

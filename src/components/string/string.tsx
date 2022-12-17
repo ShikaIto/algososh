@@ -63,14 +63,21 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <form className={styles.form} onSubmit={handleSubmit}>
-        <Input isLimitText={true} maxLength={11} onChange={onChange} disabled={loader} value={value} />
+        <Input
+          isLimitText={true}
+          maxLength={11}
+          onChange={onChange}
+          disabled={loader}
+          value={value}
+          data-testid='input'
+        />
         <Button type="submit" text={'Развернуть'} isLoader={loader} disabled={value ? false : true} />
       </form>
       {letters && <ul className={styles.list}>
         {letters.map((item, index) => {
           return (
             <li key={index}>
-              <Circle letter={item.value} state={item.state} />
+              <Circle letter={item.value} state={item.state} data-testid='circle' />
             </li>
           )
         })}
